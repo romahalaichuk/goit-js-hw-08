@@ -44,4 +44,3 @@ function selectGalleryEl(event) {
   });
   lightbox.show();
 }
-// test
