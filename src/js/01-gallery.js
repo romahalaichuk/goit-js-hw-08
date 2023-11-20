@@ -2,6 +2,13 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { galleryItems } from './gallery-items.js';
 
+// Tworzenie instancji SimpleLightbox
+const lightbox = new SimpleLightbox('.gallery a', {
+  caption: true,
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
 function createGalleryItems() {
   const galleryList = document.querySelector('.gallery');
 
@@ -33,14 +40,8 @@ galleryContainer.addEventListener('click', selectGalleryEl);
 
 function selectGalleryEl(event) {
   event.preventDefault();
-  if (event.target.nodeName !== 'IMG') {
-    return;
+  if (event.target.nodeName === 'IMG') {
+    // Użycie wcześniej zainicjowanej instancji SimpleLightbox
+    lightbox.show();
   }
-
-  const lightbox = new SimpleLightbox('.gallery a', {
-    caption: true,
-    captionsData: 'alt',
-    captionDelay: 250,
-  });
-  lightbox.show();
 }
