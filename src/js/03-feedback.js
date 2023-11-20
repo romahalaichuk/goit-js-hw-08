@@ -1,18 +1,18 @@
 import throttle from 'lodash.throttle';
 
-const feedbackForm = document.querySelector('.feedback-form');
-const emailInput = feedbackForm.querySelector('input[name="email"]');
-const messageInput = feedbackForm.querySelector('textarea[name="message"]');
+const form = document.querySelector('.feedback-form');
+const emailInput = form.querySelector('input[name="email"]');
+const messageInput = form.querySelector('textarea[name="message"]');
 
-const saveFormState = () => {
+const saveFormStateToLocalStorage = throttle(() => {
   const formState = {
     email: emailInput.value,
     message: messageInput.value,
   };
   localStorage.setItem('feedback-form-state', JSON.stringify(formState));
-};
+}, 500);
 
-const loadFormState = () => {
+const fillFormFieldsFromLocalStorage = () => {
   const storedFormState = localStorage.getItem('feedback-form-state');
   if (storedFormState) {
     const formState = JSON.parse(storedFormState);
@@ -21,21 +21,15 @@ const loadFormState = () => {
   }
 };
 
-const handleSubmit = event => {
+form.addEventListener('input', saveFormStateToLocalStorage);
+
+fillFormFieldsFromLocalStorage();
+
+form.addEventListener('submit', event => {
   event.preventDefault();
-
   localStorage.removeItem('feedback-form-state');
-
-  emailInput.value = '';
-  messageInput.value = '';
-
-  console.log('Feedback submitted:', {
+  console.log('Form data submitted:', {
     email: emailInput.value,
     message: messageInput.value,
   });
-};
-
-feedbackForm.addEventListener('input', throttle(saveFormState, 500));
-feedbackForm.addEventListener('submit', handleSubmit);
-
-loadFormState();
+});
