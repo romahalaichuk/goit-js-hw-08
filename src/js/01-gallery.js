@@ -1,7 +1,5 @@
 import SimpleLightbox from 'simplelightbox';
-
 import 'simplelightbox/dist/simple-lightbox.min.css';
-
 import { galleryItems } from './gallery-items.js';
 
 function createGalleryItems() {
@@ -30,20 +28,9 @@ function createGalleryItems() {
 
 createGalleryItems();
 
+const galleryContainer = document.querySelector('.gallery');
 const lightbox = new SimpleLightbox('.gallery a', {
   caption: true,
   captionsData: 'alt',
   captionDelay: 250,
 });
-
-const galleryContainer = document.querySelector('.gallery');
-galleryContainer.addEventListener('click', selectGalleryEl);
-
-function selectGalleryEl(event) {
-  event.preventDefault();
-  if (event.target.nodeName !== 'IMG') {
-    return;
-  }
-
-  lightbox.show();
-}
